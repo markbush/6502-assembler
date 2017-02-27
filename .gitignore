@@ -1,0 +1,16 @@
+target/
+.cache
+.cache/*
+.settings
+.settings/*
+.project
+.classpath
+.idea/
+*~
+*.swp
+*.bak
+*#
+.#*
+.DS_Store
+*.iml
+.metadata
