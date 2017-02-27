@@ -1,5 +1,5 @@
 target/
-.cache
+.cache*
 .cache/*
 .settings
 .settings/*
@@ -9,6 +9,7 @@ target/
 *~
 *.swp
 *.bak
+*.as
 *#
 .#*
 .DS_Store
