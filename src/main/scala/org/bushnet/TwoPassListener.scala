@@ -242,6 +242,11 @@ class TwoPassListener extends AssemblerBaseListener {
     log.debug(s"${exprValues(ctx.expr(0))} * ${exprValues(ctx.expr(1))}")
     exprValues(ctx) = exprValues(ctx.expr(0)) * exprValues(ctx.expr(1))
   }
+  override def enterHighByte(ctx: AssemblerParser.HighByteContext) { }
+  override def exitHighByte(ctx: AssemblerParser.HighByteContext) {
+    log.debug(s">${exprValues(ctx.expr())}")
+    exprValues(ctx) = exprValues(ctx.expr()) / 256
+  }
   override def enterVar(ctx: AssemblerParser.VarContext) { }
   override def exitVar(ctx: AssemblerParser.VarContext) {
     log.debug(s"${ctx.ID().getText} -> ${symbols.getOrElse(ctx.ID().getText, 0xffff)}")
@@ -266,6 +271,11 @@ class TwoPassListener extends AssemblerBaseListener {
   override def exitRem(ctx: AssemblerParser.RemContext) {
     log.debug(s"${exprValues(ctx.expr(0))} % ${exprValues(ctx.expr(1))}")
     exprValues(ctx) = exprValues(ctx.expr(0)) % exprValues(ctx.expr(1))
+  }
+  override def enterLowByte(ctx: AssemblerParser.LowByteContext) { }
+  override def exitLowByte(ctx: AssemblerParser.LowByteContext) {
+    log.debug(s"<${exprValues(ctx.expr())}")
+    exprValues(ctx) = exprValues(ctx.expr()) % 256
   }
   override def enterNumber(ctx: AssemblerParser.NumberContext) { }
   override def exitNumber(ctx: AssemblerParser.NumberContext) {

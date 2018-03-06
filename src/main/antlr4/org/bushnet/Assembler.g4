@@ -49,6 +49,8 @@ expr: ID                    # Var
     | number                # Num
     | CHAR                  # Char
     | '[' expr ']'          # Parens
+    | '<' expr              # LowByte
+    | '>' expr              # HighByte
     ;
 
 number: HEX

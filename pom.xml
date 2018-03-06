@@ -9,6 +9,11 @@
   </properties>
   <dependencies>
     <dependency>
+        <groupId>org.scala-lang</groupId>
+        <artifactId>scala-library</artifactId>
+        <version>2.11.8</version>
+    </dependency>
+    <dependency>
         <groupId>org.antlr</groupId>
         <artifactId>antlr4-runtime</artifactId>
         <version>4.6</version>
@@ -47,6 +52,7 @@
         <configuration>
           <args>
             <arg>-deprecation</arg>
+            <arg>-feature</arg>
           </args>
         </configuration>
       </plugin>
@@ -59,6 +65,28 @@
             <id>antlr</id>
             <goals>
               <goal>antlr4</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <mainClass>org.bushnet.Assembler</mainClass>
+            </manifest>
+          </archive>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+        </configuration>
+        <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
             </goals>
           </execution>
         </executions>

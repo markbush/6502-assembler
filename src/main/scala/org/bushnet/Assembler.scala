@@ -26,6 +26,8 @@ object Assembler extends App {
   walker.walk(listener, tree)
   log.debug(listener.symbols)
   log.debug(listener.memory.toList.take(200).map(_.toHexString).grouped(10).toList.map(_.mkString(", ")).mkString("\n"))
-  log.debug(listener.memory.toList.drop(16374).map(_.toHexString).grouped(10).toList.map(_.mkString(", ")).mkString("\n"))
+  if (listener.memory.size > 16374) {
+    log.debug(listener.memory.toList.drop(16374).map(_.toHexString).grouped(10).toList.map(_.mkString(", ")).mkString("\n"))
+  }
   outputStream.write(listener.memory.map(_.toByte))
 }
