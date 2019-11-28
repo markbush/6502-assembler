@@ -67,7 +67,7 @@ object OpCodes {
     DEX -> Map(Implied -> Op(0xca, 0)),
     DEY -> Map(Implied -> Op(0x88, 0)),
     EOR -> Map(Immediate -> Op(0x49, 1), ZeroPage -> Op(0x45, 1), Absolute -> Op(0x4d, 2), AbsoluteIndexedX -> Op(0x5d, 2), AbsoluteIndexedY -> Op(0x59, 2), ZeroPageIndexedX -> Op(0x55, 1), ZeroPageIndirect -> Op(0x41, 1), ZeroPagePostIndexedIndirect -> Op(0x51, 1)),
-    INC -> Map(ZeroPage -> Op(0xe6, 1), Absolute -> Op(0xee, 2), AbsoluteIndexedX -> Op(0xfd, 2), ZeroPageIndexedX -> Op(0xf6, 1)),
+    INC -> Map(ZeroPage -> Op(0xe6, 1), Absolute -> Op(0xee, 2), AbsoluteIndexedX -> Op(0xfe, 2), ZeroPageIndexedX -> Op(0xf6, 1)),
     INX -> Map(Implied -> Op(0xe8, 0)),
     INY -> Map(Implied -> Op(0xc8, 0)),
     JMP -> Map(Absolute -> Op(0x4c, 2), AbsoluteIndirect -> Op(0x6c, 2)),
