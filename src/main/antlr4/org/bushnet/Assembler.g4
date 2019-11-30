@@ -18,7 +18,8 @@ command: DIRECTIVE args?     # DirectiveCommand
 
 operand: immediateAddr
        | directAddr
-       | indexedDirectAddr
+       | indexedDirectAddrX
+       | indexedDirectAddrY
        | indirectAddr
        | preIndexedIndirectAddr
        | postIndexedIndirectAddr
@@ -26,7 +27,8 @@ operand: immediateAddr
 
 immediateAddr: '#' expr ;
 directAddr: expr ;
-indexedDirectAddr: expr ',' ('X'|'Y') ;
+indexedDirectAddrX: expr ',' 'X' ;
+indexedDirectAddrY: expr ',' 'Y' ;
 indirectAddr: '(' expr ')' ;
 preIndexedIndirectAddr: '(' expr ',' 'X' ')' ;
 postIndexedIndirectAddr: '(' expr ')' ',' 'Y' ;

@@ -4,12 +4,16 @@ import org.antlr.v4.runtime._
 import org.antlr.v4.runtime.tree._
 
 import org.apache.log4j.Logger
+import org.apache.log4j.Level
 
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.InputStream
 
 object Assembler extends App {
+  if (System.getProperty("6502.debug") != null) {
+    Logger.getRootLogger().setLevel(Level.DEBUG);
+  }
   val log = Logger.getLogger(this.getClass)
   val is = if (args.size > 0) new FileInputStream(args(0)) else System.in
   val outputStream = if (args.size > 1) new FileOutputStream(args(1)) else System.out

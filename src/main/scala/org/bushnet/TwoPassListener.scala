@@ -165,26 +165,35 @@ class TwoPassListener extends AssemblerBaseListener {
       ZeroPage
     }
   }
-  override def enterIndexedDirectAddr(ctx: AssemblerParser.IndexedDirectAddrContext) { }
-  override def exitIndexedDirectAddr(ctx: AssemblerParser.IndexedDirectAddrContext) {
+  override def enterIndexedDirectAddrX(ctx: AssemblerParser.IndexedDirectAddrXContext) { }
+  override def exitIndexedDirectAddrX(ctx: AssemblerParser.IndexedDirectAddrXContext) {
     val value = exprValues(ctx.expr())
     exprValues(ctx) = value
     addrMode = if (value >= 256) AbsoluteIndexedX else ZeroPageIndexedX
+  }
+  override def enterIndexedDirectAddrY(ctx: AssemblerParser.IndexedDirectAddrYContext) { }
+  override def exitIndexedDirectAddrY(ctx: AssemblerParser.IndexedDirectAddrYContext) {
+    val value = exprValues(ctx.expr())
+    exprValues(ctx) = value
+    addrMode = if (value >= 256) AbsoluteIndexedY else ZeroPageIndexedY
   }
   override def enterIndirectAddr(ctx: AssemblerParser.IndirectAddrContext) { }
   override def exitIndirectAddr(ctx: AssemblerParser.IndirectAddrContext) {
     val value = exprValues(ctx.expr())
     exprValues(ctx) = value
+    addrMode = if (value >= 256) AbsoluteIndirect else ZeroPageIndirect
   }
   override def enterPreIndexedIndirectAddr(ctx: AssemblerParser.PreIndexedIndirectAddrContext) { }
   override def exitPreIndexedIndirectAddr(ctx: AssemblerParser.PreIndexedIndirectAddrContext) {
     val value = exprValues(ctx.expr())
     exprValues(ctx) = value
+    addrMode = ZeroPagePreIndexedIndirect
   }
   override def enterPostIndexedIndirectAddr(ctx: AssemblerParser.PostIndexedIndirectAddrContext) { }
   override def exitPostIndexedIndirectAddr(ctx: AssemblerParser.PostIndexedIndirectAddrContext) {
     val value = exprValues(ctx.expr())
     exprValues(ctx) = value
+    addrMode = ZeroPagePostIndexedIndirect
   }
   override def enterStringArg(ctx: AssemblerParser.StringArgContext) { }
   override def exitStringArg(ctx: AssemblerParser.StringArgContext) {
