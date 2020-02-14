@@ -3,7 +3,7 @@ package org.bushnet
 import org.antlr.v4.runtime._
 import org.antlr.v4.runtime.tree._
 
-import org.apache.log4j.Logger
+import org.apache.logging.log4j.LogManager
 
 import scala.collection.mutable.Map
 import scala.collection.convert.WrapAsScala._
@@ -12,7 +12,7 @@ import AddrMode._
 
 class TwoPassListener extends AssemblerBaseListener {
   val StringDecode = """"(.*)"""".r
-  val log = Logger.getLogger(this.getClass)
+  val log = LogManager.getLogger(this.getClass)
   val symbols = Map[String,Int]("**" -> 0)
   var memoryStart = 0
   var memorySize = 0x8000
