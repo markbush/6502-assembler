@@ -3,16 +3,18 @@ package org.bushnet
 import org.antlr.v4.runtime._
 import org.antlr.v4.runtime.tree._
 
-import org.apache.logging.log4j.LogManager
+import org.slf4j.LoggerFactory;
 
+import scala.language.implicitConversions
+import scala.language.reflectiveCalls
 import scala.collection.mutable.Map
-import scala.collection.convert.WrapAsScala._
+import scala.collection.convert.ImplicitConversionsToScala._
 
 import AddrMode._
 
 class TwoPassListener extends AssemblerBaseListener {
   val StringDecode = """"(.*)"""".r
-  val log = LogManager.getLogger(this.getClass)
+  val log = LoggerFactory.getLogger(this.getClass)
   val symbols = Map[String,Int]("**" -> 0)
   var memoryStart = 0
   var memorySize = 0x8000
@@ -160,7 +162,7 @@ class TwoPassListener extends AssemblerBaseListener {
       exprValues(ctx) = if (relAddr >= 0) relAddr else relAddr+256
       Relative
     } else if (target >= 256 || !OpCodes.has(op, ZeroPage)) {
-      Absolute 
+      Absolute
     } else {
       ZeroPage
     }
@@ -169,19 +171,19 @@ class TwoPassListener extends AssemblerBaseListener {
   override def exitIndexedDirectAddrX(ctx: AssemblerParser.IndexedDirectAddrXContext) {
     val value = exprValues(ctx.expr())
     exprValues(ctx) = value
-    addrMode = if (value >= 256) AbsoluteIndexedX else ZeroPageIndexedX
+    addrMode = if (value < 256 && OpCodes.has(op, ZeroPageIndexedX)) ZeroPageIndexedX else AbsoluteIndexedX
   }
   override def enterIndexedDirectAddrY(ctx: AssemblerParser.IndexedDirectAddrYContext) { }
   override def exitIndexedDirectAddrY(ctx: AssemblerParser.IndexedDirectAddrYContext) {
     val value = exprValues(ctx.expr())
     exprValues(ctx) = value
-    addrMode = if (value >= 256) AbsoluteIndexedY else ZeroPageIndexedY
+    addrMode = if (value < 256 && OpCodes.has(op, ZeroPageIndexedY)) ZeroPageIndexedY else AbsoluteIndexedY
   }
   override def enterIndirectAddr(ctx: AssemblerParser.IndirectAddrContext) { }
   override def exitIndirectAddr(ctx: AssemblerParser.IndirectAddrContext) {
     val value = exprValues(ctx.expr())
     exprValues(ctx) = value
-    addrMode = if (value >= 256) AbsoluteIndirect else ZeroPageIndirect
+    addrMode = if (value < 256 && OpCodes.has(op, ZeroPageIndirect)) ZeroPageIndirect else AbsoluteIndirect
   }
   override def enterPreIndexedIndirectAddr(ctx: AssemblerParser.PreIndexedIndirectAddrContext) { }
   override def exitPreIndexedIndirectAddr(ctx: AssemblerParser.PreIndexedIndirectAddrContext) {
