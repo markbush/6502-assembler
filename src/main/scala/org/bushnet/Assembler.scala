@@ -42,50 +42,6 @@ object Assembler extends App {
       (System.out, outArgs)
     }
   }
-  private def writeTape(memory:Array[Int], startAddress:Int, out:OutputStream) = {
-	  log.debug("Tape output")
-	  val lineSize = 24
-    var lineAddress = startAddress
-    val lines = memory.grouped(lineSize).toList
-    lines.foreach { line =>
-      val bytes = line.map("%02x".format(_)).mkString
-      val checkSum = line.sum + line.size + lineAddress
-      val lineOut = ";%02x%04x%s%04x".format(line.size, lineAddress, bytes, checkSum).toUpperCase
-      out.write(lineOut.map(_.toByte).toArray)
-      out.write('\r')
-      out.write('\n')
-      log.debug(lineOut)
-      lineAddress += lineSize
-    }
-	  val lastLine = ";00%04x%04x".format(lines.size, lines.size).toUpperCase
-	  out.write(lastLine.map(_.toByte).toArray)
-    out.write('\r')
-    out.write('\n')
-    log.debug(lastLine)
-  }
-  private def writeHex(memory:Array[Int], startAddress:Int, out:OutputStream) = {
-	  log.debug("Tape output")
-	  val lineSize = 32
-    var lineAddress = startAddress
-    val lines = memory.grouped(lineSize).toList
-    lines.foreach { line =>
-      val bytes = line.map("%02x".format(_)).mkString
-      val addrLow = lineAddress & 0xff
-      val addrHigh = lineAddress / 0x100
-      val checkSum = 0x100 - ((line.sum + line.size + addrLow + addrHigh) & 0xff)
-      val lineOut = ":%02x%04x00%s%02x".format(line.size, lineAddress, bytes, checkSum).toUpperCase
-      out.write(lineOut.map(_.toByte).toArray)
-      out.write('\r')
-      out.write('\n')
-      log.debug(lineOut)
-      lineAddress += lineSize
-    }
-	  val lastLine = ":00000001FF"
-	  out.write(lastLine.map(_.toByte).toArray)
-    out.write('\r')
-    out.write('\n')
-    log.debug(lastLine)
-  }
   private def writeObject(memory:Array[Int], out:OutputStream) = {
     out.write(memory.map(_.toByte))
   }
@@ -114,9 +70,9 @@ object Assembler extends App {
     log.debug(listener.memory.toList.drop(16374).map(_.toHexString).grouped(10).toList.map(_.mkString(", ")).mkString("\n"))
   }
   if (isTape) {
-    writeTape(listener.memory, listener.memoryStart, outputStream)
+    OutputWriter.writeTape(listener.memory, listener.memoryStart, outputStream)
   } else if (isHex) {
-    writeHex(listener.memory, listener.memoryStart, outputStream)
+    OutputWriter.writeHex(listener.memory, listener.memoryStart, outputStream)
   } else {
     writeObject(listener.memory, outputStream)
   }

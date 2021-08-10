@@ -1,0 +1,48 @@
+package org.bushnet
+
+import org.slf4j.LoggerFactory
+
+import java.io.OutputStream
+
+object OutputWriter {
+  val log = LoggerFactory.getLogger(this.getClass)
+
+  def writeTape(memory:Array[Int], startAddress:Int, out:OutputStream) = {
+	  log.debug("Tape output")
+	  val lineEnd = Array[Byte]('\r', '\n')
+	  val lineSize = 24
+	  val lineFormat = ";%02x%04x%s%04x"
+	  val checkSumF = (checkSum:Int) => checkSum
+	  val lastLineF = (numLines:Int)=>";00%04x%04x".format(numLines, numLines)
+	  write(memory, startAddress, lineSize, out, lineFormat, lineEnd, checkSumF, lastLineF)
+  }
+  def writeHex(memory:Array[Int], startAddress:Int, out:OutputStream) = {
+	  log.debug("Hex output")
+	  val lineEnd = Array[Byte]('\r', '\n')
+	  val lineSize = 32
+	  val lineFormat = ":%02x%04x00%s%02x"
+	  val checkSumF = (checkSum:Int) => 0x100 - ((checkSum) & 0xff)
+	  val lastLineF = (x:Int)=>":00000001FF"
+	  write(memory, startAddress, lineSize, out, lineFormat, lineEnd, checkSumF, lastLineF)
+  }
+  private def write(memory:Array[Int], startAddress:Int, lineSize:Int, out:OutputStream,
+      lineFormat:String, lineEnd:Array[Byte], checkSumF:Int=>Int, lastLineF:Int=>String) = {
+    var lineAddress = startAddress
+    val lines = memory.grouped(lineSize).toList
+    lines.foreach { line =>
+      val bytes = line.map("%02x".format(_)).mkString
+      val addrLow = lineAddress & 0xff
+      val addrHigh = lineAddress / 0x100
+      val checkSum = checkSumF(line.sum + line.size + addrLow + addrHigh)
+      val lineOut = lineFormat.format(line.size, lineAddress, bytes, checkSum).toUpperCase
+      out.write(lineOut.map(_.toByte).toArray)
+      out.write(lineEnd)
+      log.debug(lineOut)
+      lineAddress += lineSize
+    }
+	  val lastLine =lastLineF(lines.size).toUpperCase
+	  out.write(lastLine.map(_.toByte).toArray)
+    out.write(lineEnd)
+    log.debug(lastLine)
+  }
+}
