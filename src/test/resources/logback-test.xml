@@ -1,26 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true">
-    <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <charset>UTF-8</charset>
-            <Pattern>%d %-4relative [%thread] %-5level %logger{45} - %msg%n</Pattern>
+            <Pattern>%date{HH:mm:ss.SSS} [%thread] %logger{0} [%-5level] %msg%n</Pattern>
         </encoder>
     </appender>
-    <timestamp key="timeStamp" datePattern="dd-MM-yyyy"/>
-    <appender name="fileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${user.home}/logs/assembler-${timeStamp}.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-		    <fileNamePattern>logFile.%d{yyyy-MM-dd}.log</fileNamePattern>
-		    <maxHistory>7</maxHistory>
-	  	</rollingPolicy>
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>${user.home}/logs/assembler.log</file>
         <encoder>
-            <charset>UTF-8</charset>
-            <pattern>%d %-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
+            <pattern>%date{HH:mm:ss.SSS} [%thread] %logger{0} [%-5level] %msg%n</pattern>
         </encoder>
     </appender>
     <logger name="ch.qos" level="ERROR"/>
     <root level="INFO">
-        <appender-ref ref="consoleAppender" />
-        <appender-ref ref="fileAppender"/>
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE"/>
     </root>
 </configuration>
