@@ -7,7 +7,7 @@ class ArgParseException(message:String) extends Exception(message)
 class ArgParser {
   val log = LoggerFactory.getLogger(this.getClass)
 
-  val usage = """Usage: 6502 [-d] [-t tape_out_file] [-h hex_out_file] [-o binary_out_file] [-r report_out_file] [input_file]"""
+  val usage = """Usage: 6502 [-d] [-t tape_out_file] [-h hex_out_file] [-b hex_bytes_out_file] [-o binary_out_file] [-r report_out_file] [input_file]"""
 
   def parse(args:Array[String]):Map[String,String] = {
     parse(args.toList, Map())
@@ -23,6 +23,8 @@ class ArgParser {
         parse(rest, acc + ("tapeFilename" -> tapeFilename))
       case "-h" :: hexFilename :: rest =>
         parse(rest, acc + ("hexFilename" -> hexFilename))
+      case "-b" :: hexBytesFilename :: rest =>
+        parse(rest, acc + ("hexBytesFilename" -> hexBytesFilename))
       case "-o" :: outputFilename :: rest =>
         parse(rest, acc + ("outputFilename" -> outputFilename))
       case "-r" :: reportFilename :: rest =>

@@ -6,7 +6,7 @@ import java.io.FileInputStream
 import scala.io.Source
 
 object InputReader {
-  val Include = """\s*include\s*"([^"]+)"\s*""".r
+  val Include = """(?i)\s*include\s*"([^"]+)"\s*""".r
   def linesFrom(filename:String):List[String] = {
     linesFromFileOnto(filename, Nil).reverse
   }

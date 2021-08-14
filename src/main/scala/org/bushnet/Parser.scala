@@ -31,7 +31,8 @@ class Parser(reportOut:Option[PrintWriter], lines:List[String], machine:Machine)
     machine.pc = 0x0000
     parse(true)
     machine.allVariables.foreach { variable =>
-      log(true, "%-8s $%4x".format(variable, machine.variable(variable)).toUpperCase)
+      val flag = if (machine.variable(variable) == 0xffff) " *" else ""
+      log(true, "%-8s $%4x%s".format(variable, machine.variable(variable), flag).toUpperCase)
     }
   }
 

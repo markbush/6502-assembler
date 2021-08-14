@@ -44,6 +44,11 @@ object Assembler extends App {
     OutputWriter.writeHex(machine, hexStream)
     hexStream.close()
   }
+  arguments.get("hexBytesFilename").foreach { hexBytesFilename =>
+    val hexBytesStream = new FileOutputStream(hexBytesFilename)
+    OutputWriter.writeHexBytes(machine, hexBytesStream)
+    hexBytesStream.close()
+  }
   arguments.get("outputFilename").foreach { outputFilename =>
     OutputWriter.writeObject(machine, outputFilename)
   }

@@ -23,7 +23,7 @@ class Statement(label:Option[String], command:String, expr:String) {
     label.foreach { locationName =>
       machine.variablePut(locationName)
     }
-    val op = Operation.withName(command.trim)
+    val op = Operation.withName(command.trim.toUpperCase)
     val (addrMode, exprValue) = addrModeAndValue(op, machine)
     val opCode = OpCodes(op, addrMode)
     machine.store(opCode.opCode)
