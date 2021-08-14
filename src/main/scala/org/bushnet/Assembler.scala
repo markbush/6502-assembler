@@ -25,7 +25,7 @@ object Assembler extends App {
   val reportFilename = arguments.getOrElse("reportFilename", "assembler.rpt")
   val reportStream = new PrintWriter(reportFilename)
 
-  val sourceLines = Source.fromInputStream(inputStream).getLines().toList
+  val sourceLines = InputReader.linesFrom(inputStream)
 
   val machine = new Machine
 

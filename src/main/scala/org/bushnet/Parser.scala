@@ -22,11 +22,13 @@ class Parser(reportOut:Option[PrintWriter], lines:List[String], machine:Machine)
 
   def phaseOne():Unit = {
     log.debug("Pass 1")
+    machine.pc = 0x0000
     parse(false)
   }
 
   def phaseTwo():Unit = {
     log.debug("Pass 2")
+    machine.pc = 0x0000
     parse(true)
     machine.allVariables.foreach { variable =>
       log(true, "%-8s $%4x".format(variable, machine.variable(variable)).toUpperCase)
@@ -55,7 +57,7 @@ class Parser(reportOut:Option[PrintWriter], lines:List[String], machine:Machine)
         val newPc = machine.pc
         val bytes = (pc until newPc).map(addr => "%02x".format(machine.peek(addr))).mkString(" ")
         val record = bytesFmt.format(pc, bytes)
-        log(doReport, s"${record} ${line}")
+        log(doReport, s"${record.toUpperCase} ${line}")
       case OpLine(_, label, mnemonic, arg) =>
         Statement(Option(label), mnemonic, arg).evaluate(machine)
         val newPc = machine.pc
@@ -64,7 +66,7 @@ class Parser(reportOut:Option[PrintWriter], lines:List[String], machine:Machine)
           case 2 => oneArgsFmt.format(pc, machine.peek(pc), machine.peek(pc+1))
           case 3 => twoArgsFmt.format(pc, machine.peek(pc), machine.peek(pc+1), machine.peek(pc+2))
         }
-        log(doReport, s"${record} ${line}")
+        log(doReport, s"${record.toUpperCase} ${line}")
       case _ => throw new ParserException(s"Unrecognised input: ${line}")
     }
   }

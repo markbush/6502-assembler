@@ -35,8 +35,8 @@ class Expression(input:String) {
         exprValue & 0xff
       case HighByte(expr) =>
         val exprValue = Expression(expr.trim).evaluate(machine)
-        log.debug(s">${expr} (${exprValue}) => ${exprValue / 0x100}")
-        exprValue / 0x100
+        log.debug(s">${expr} (${exprValue}) => ${(exprValue / 0x100) & 0xff}")
+        (exprValue / 0x100) & 0xff
       case Variable(varName) =>
         log.debug(s"${varName} => ${machine.variable(varName)}")
         machine.variable(varName)
