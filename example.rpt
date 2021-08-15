@@ -1,0 +1,24 @@
+              ZP1 = $10
+              ZP2 = $11
+
+              ** = $0200
+0200        .OUTPUT START,END
+
+0200 A9 41    START:  LDA #'A'          ; load accumulator with 65
+0202 C9 6C            CMP #%01101100
+0204 F0 02            BEQ FOUND
+0206 85 2C            STA $2C
+0208 A9 00    FOUND:  LDA #<START
+020A 85 10            STA ZP1
+020C A9 02            LDA #>START
+020E 85 11            STA ZP2
+0210 A2 02            LDX #[>END + $02] \\ $10
+0212 8A               TXA
+0213 48               PHA
+
+              END = **-1
+END      $ 213
+FOUND    $ 208
+START    $ 200
+ZP1      $  10
+ZP2      $  11
