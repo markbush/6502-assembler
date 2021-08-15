@@ -30,7 +30,7 @@ object OutputWriter {
 	  val lineSize = 32
 	  val lineFormat = ":%02x%04x00%s%02x"
 	  val byteJoiner = ""
-	  val checkSumF = (checkSum:Int) => 0x100 - ((checkSum) & 0xff)
+	  val checkSumF = (checkSum:Int) => (0x100 - ((checkSum) & 0xff)) & 0xff
 	  val lastLineF = (x:Int)=>":00000001FF"
 	  write(machine, lineSize, out, lineFormat, byteJoiner, lineEnd, checkSumF, lastLineF)
   }
