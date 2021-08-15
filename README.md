@@ -104,6 +104,8 @@ A character surrounded by single quotes will be replaced with the ASCII value of
 
 The following operators are supported:
 
+operator | value
+---------|----------------
 \+, \-, \*, / | addition, subtraction, multiplication, division of the values either side
 \\\\ | the left value modulo the right value
 < | the low byte of the following value
