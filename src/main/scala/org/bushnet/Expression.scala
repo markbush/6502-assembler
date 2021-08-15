@@ -38,7 +38,7 @@ class Expression(input:String) {
         log.debug(s">${expr} (${exprValue}) => ${(exprValue / 0x100) & 0xff}")
         (exprValue / 0x100) & 0xff
       case Variable(varName) =>
-        log.debug(s"${varName} => ${machine.variable(varName)}")
+        log.debug(s"${varName} => ${"$%x".format(machine.variable(varName))} (${machine.variable(varName)})")
         machine.variable(varName)
       case NumberDecimal(number) => number.toInt
       case NumberHex(number) => Integer.parseInt(number, 16)

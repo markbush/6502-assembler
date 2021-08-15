@@ -8,7 +8,7 @@ class MachineMemory(size:Int) {
   var pc = 0
 
   def store(byte:Int):Unit = {
-    this(pc) = byte
+    this(pc) = byte & 0xff
     pc += 1
   }
   def apply(addr:Int):Int = memory(addr)

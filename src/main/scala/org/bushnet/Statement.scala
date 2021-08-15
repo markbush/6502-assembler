@@ -22,6 +22,7 @@ class Statement(label:Option[String], command:String, expr:String) {
     log.debug(s"OP: ${command} ${expr}")
     label.foreach { locationName =>
       machine.variablePut(locationName)
+      log.debug(s"${locationName} => ${"$%x".format(machine.variable(locationName))} (${machine.variable(locationName)})")
     }
     val op = Operation.withName(command.trim.toUpperCase)
     val (addrMode, exprValue) = addrModeAndValue(op, machine)

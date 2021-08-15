@@ -14,6 +14,8 @@ class Assignment(variable:String, expr:String) {
   def evaluate(machine:Machine):Unit = {
     log.debug(s"ASGN: ${variable} = ${expr}")
     val exprValue = Expression(expr.trim).evaluate(machine)
-    machine.variablePut(variable.trim, exprValue)
+    val varName = variable.trim
+    machine.variablePut(varName, exprValue)
+    log.debug(s"${varName} => ${"$%x".format(machine.variable(varName))} (${machine.variable(varName)})")
   }
 }

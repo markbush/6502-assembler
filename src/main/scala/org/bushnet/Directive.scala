@@ -16,6 +16,7 @@ class Directive(label:Option[String], command:String, expr:String) {
     log.debug(s"CMD: .${command} ${expr}")
     label.foreach { locationName =>
       machine.variablePut(locationName)
+      log.debug(s"${locationName} => ${"$%x".format(machine.variable(locationName))} (${machine.variable(locationName)})")
     }
     command.trim.toUpperCase match {
       case "BYTE" =>
