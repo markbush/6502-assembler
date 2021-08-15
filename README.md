@@ -28,6 +28,8 @@ exec java -jar "${JAR}" "$@"
 
 The assembler supports the following arguments:
 
+argument | 
+---------|---------
 -d | Generate debug output
 -o binary_filename | generate binary file
 -t tape_file_name | generate paper tape format output (for KIM-1)
@@ -56,6 +58,8 @@ Nested includes are supported.
 
 The assembler recognises the following assembler directives which must be preceded by a decimal point.
 
+directive | usage
+----------|--------
 .BYTE | followed by a comma separated list of bytes or strings (which will be treated as a list of bytes based on the ASCII value of each character)
 .DBYTE | followed by a comma separated list of double-byte values which will be stored in high-byte/low-byte order
 .WORD | followed by a comma separated list of double-byte values which will be stored in low-byte/high-byte order
@@ -89,7 +93,9 @@ Labels must end with a colon.
 
 Numerical values can be input in multiple formats.  The format is specified by preceding the number with one of the following characters:
 
-<none> | decimal
+prefix | usage
+-------|-------
+none | decimal
 $ | hex
 @ | octal
 % | binary
@@ -101,7 +107,7 @@ The following operators are supported:
 \+, \-, \*, / | addition, subtraction, multiplication, division of the values either side
 \\\\ | the left value modulo the right value
 < | the low byte of the following value
-> | the high byte of the following value
+\> | the high byte of the following value
 \[ \] | square brackets cause the value inside to be evaluated first and can be nested
 
 If a command can take both zero page and absolute addressing, then zero page addressing will be used if the target address in in zero page.
