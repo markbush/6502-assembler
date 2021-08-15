@@ -28,7 +28,7 @@ exec java -jar "${JAR}" "$@"
 
 The assembler supports the following arguments:
 
-argument | 
+argument | result
 ---------|---------
 -d | Generate debug output
 -o binary_filename | generate binary file
