@@ -19,6 +19,8 @@ class ArgParser {
         acc
       case "-d" :: rest =>
         parse(rest, acc + ("debug" -> "true"))
+      case "-m" :: mameFilename :: rest =>
+        parse(rest, acc + ("mameFilename" -> mameFilename))
       case "-t" :: tapeFilename :: rest =>
         parse(rest, acc + ("tapeFilename" -> tapeFilename))
       case "-h" :: hexFilename :: rest =>

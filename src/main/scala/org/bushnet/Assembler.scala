@@ -39,6 +39,11 @@ object Assembler extends App {
     OutputWriter.writeTape(machine, tapeStream)
     tapeStream.close()
   }
+  arguments.get("mameFilename").foreach { mameFilename =>
+    val mameStream = new FileOutputStream(mameFilename)
+    OutputWriter.writeMame(machine, mameStream)
+    mameStream.close()
+  }
   arguments.get("hexFilename").foreach { hexFilename =>
     val hexStream = new FileOutputStream(hexFilename)
     OutputWriter.writeHex(machine, hexStream)

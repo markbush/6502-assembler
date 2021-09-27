@@ -35,6 +35,7 @@ argument | result
 -t tape_file_name | generate paper tape format output (for KIM-1)
 -h hex_file_name | generate HEX file (for KIM-1 clone)
 -b hex_bytes_file | generate a file just containing the hex codes of the bytes (in ASCII)
+-m mame_paste_file | generate file suitable for pasting into MAME
 -r report_file | generate an assembler report
 assembly_source | input source file
 

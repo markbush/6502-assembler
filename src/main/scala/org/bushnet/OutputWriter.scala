@@ -24,6 +24,13 @@ object OutputWriter {
 	  val lastLineF = (numLines:Int)=>";00%04x%04x".format(numLines, numLines)
 	  write(machine, lineSize, out, lineFormat, byteJoiner, lineEnd, checkSumF, lastLineF)
   }
+  def writeMame(machine:Machine, out:OutputStream) = {
+	  log.debug("MAME paste output")
+    val bytes = machine.bytes.map("%02x^".format(_)).mkString
+    val output = "-%04x=%s".format(machine.startAddress, bytes).toUpperCase
+    out.write(output.map(_.toByte).toArray)
+    log.debug(output)
+  }
   def writeHex(machine:Machine, out:OutputStream) = {
 	  log.debug("Hex output")
 	  val lineEnd = Array[Byte]('\r', '\n')
